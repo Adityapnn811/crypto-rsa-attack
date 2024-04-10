@@ -1,8 +1,11 @@
 from Crypto.Util.number import * 
 from factorize import factorize
 from decryptRSA import decryptRSA
+from decimal import *
+from cuberoot import cube_root
 
 def decryptA(n, e, c):
+    # p and q very near
     p, q = factorize(n)
     m = decryptRSA(p, q, e, c, n)
     m_string = (long_to_bytes(m))
@@ -17,15 +20,19 @@ def decryptB(n, e, c):
 
 
 def decryptC(n, e, c):
-    print('decryptC')
-    print(n, e, c)
-    return('')
+    # e == d
+    m = pow(c, e, n)
+    m_string = (long_to_bytes(m))
+
+    return(m_string)
 
 
 def decryptD(n, e, c):
-    print('decryptD')
-    print(n, e, c)
-    return('')
+    # e == 3
+    m = int(cube_root(c))
+    m_string = (long_to_bytes(m))
+
+    return(m_string)
 
 
 def decryptE(n, e, c):
