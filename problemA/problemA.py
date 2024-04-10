@@ -17,14 +17,8 @@ jawaban = ''
 
 while(True):
     data = sk.recv(1024 * 100)
-    if b'Tahap-' in data:
-        # Reset
-        jawaban = ''
-        paket_soal = ''
-        n = 0
-        e = 0
-        c = 0
-        print(data.decode())
+    if b'KRIPTOGRAFIITB' in data:
+        print(data)
 
     # Parse input
     if b'paket_soal =' in data:
@@ -50,9 +44,8 @@ while(True):
         for word in words:
             if 'c =' in word:
                 c = int(word.split('=')[1].strip())
-
-    if (paket_soal != '' and n != 0 and e != 0 and c != 0):
-        # Decryption
+        
+    if b'Jawaban' in data:
         match paket_soal:
             case 'A':
                 jawaban = decryptA(n, e, c)
@@ -69,8 +62,5 @@ while(True):
             case 'E':
                 jawaban = decryptE(n, e, c)
                 print("jawaban =", jawaban)
-        
-    if b'Jawaban' in data:
-        # break
         if (jawaban != ''):
             sk.send(jawaban)
