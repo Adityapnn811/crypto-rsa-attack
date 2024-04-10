@@ -5,7 +5,7 @@ from decryptRSA import decryptRSA
 def decryptA(n, e, c):
     p, q = factorize(n)
     m = decryptRSA(p, q, e, c, n)
-    m_string = (long_to_bytes(m)).decode()
+    m_string = (long_to_bytes(m))
 
     return(m_string)
     

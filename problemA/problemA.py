@@ -17,6 +17,15 @@ jawaban = ''
 
 while(True):
     data = sk.recv(1024 * 100)
+    if b'Tahap-' in data:
+        # Reset
+        jawaban = ''
+        paket_soal = ''
+        n = 0
+        e = 0
+        c = 0
+        print(data.decode())
+
     # Parse input
     if b'paket_soal =' in data:
         words = data.decode().split('\n')
@@ -47,7 +56,6 @@ while(True):
         match paket_soal:
             case 'A':
                 jawaban = decryptA(n, e, c)
-                print("jawaban = ", jawaban)
             case 'B':
                 jawaban = decryptB(n, e, c)
                 print("jawaban = ", jawaban)
@@ -62,5 +70,6 @@ while(True):
                 print("jawaban = ", jawaban)
         
     if b'Jawaban' in data:
-        break
-    # sk.send(b'1\n')
+        # break
+        if (jawaban != ''):
+            sk.send(jawaban)
