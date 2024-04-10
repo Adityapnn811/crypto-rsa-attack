@@ -27,9 +27,13 @@ def decryptB(n, e, c):
 
 
 def decryptC(n, e, c):
-    # e == d
-    m = pow(c, e, n)
-    m_bytes = (long_to_bytes(m))
+    # d is small (we know it's between 2**15 and 2**16)
+    m_bytes = b''
+    d = 2**15
+    while (m_bytes[0:14] != b'KRIPTOGRAFIITB'):
+        m = pow(c, d, n)
+        m_bytes = (long_to_bytes(m))
+        d += 1
 
     return(m_bytes)
 
