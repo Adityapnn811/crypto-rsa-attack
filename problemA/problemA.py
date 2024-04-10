@@ -56,18 +56,19 @@ while(True):
         match paket_soal:
             case 'A':
                 jawaban = decryptA(n, e, c)
+                print("jawaban =", jawaban)
             case 'B':
                 jawaban = decryptB(n, e, c)
-                print("jawaban = ", jawaban)
+                print("jawaban =", jawaban)
             case 'C':
                 jawaban = decryptC(n, e, c)
-                print("jawaban = ", jawaban)
+                print("jawaban =", jawaban)
             case 'D':
                 jawaban = decryptD(n, e, c)
-                print("jawaban = ", jawaban)
+                print("jawaban =", jawaban)
             case 'E':
                 jawaban = decryptE(n, e, c)
-                print("jawaban = ", jawaban)
+                print("jawaban =", jawaban)
         
     if b'Jawaban' in data:
         # break

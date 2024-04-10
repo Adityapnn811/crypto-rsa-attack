@@ -2,7 +2,7 @@ from decimal import *
 from sympy import nextprime 
 
 def factorize (num):
-  getcontext().prec = 2048
+  getcontext().prec = 1024
   p = int(Decimal(num).sqrt())
 
   while (p < num and num % p != 0):
