@@ -22,19 +22,27 @@ while b'Masukkan token terlebih dahulu!' not in data:
 
 sk.send(token.encode() + b'\n')
 
+input = 2 # Inisialisasi
+# Tambahin simple mutex lock biar ga bablas dikirim 1 input doang
+has_sent_input = False
 
 while True:
     data = sk.recv(1024 * 100)
 
     # Ambil 10 pasangan ciphertext dan plaintext
-    input = 2 # Inisialisasi
-    # print(data.decode()) # Debugging
     if len(cm_pairs) < 10:
+        print("Start isi data")
+        print(data.decode())
+        print("End isi data")
+        print("Nilai input saat ini: {}".format(input) )
+        print("Panjang cm_pairs saat ini: {}".format(len(cm_pairs)))
         if b'Masukkan perintah:' in data:
             sk.send(b'1\n')
-        elif b'Masukkan nomor arsip (dalam bentuk integer):' in data:
+        elif b'Masukkan nomor arsip (dalam bentuk integer):' in data and not has_sent_input:
             sk.send(str(input).encode() + b'\n')
+            has_sent_input = True
         elif b'Masukkan isi arsip:' in data:
+            print("Sedang mengirim input {}".format(input))
             sk.send(b'Hai\n')
         elif b'Token akses nomor arsip:' in data:
             print("Mau parsing token arsip")
@@ -43,6 +51,7 @@ while True:
             print('Untuk input {}, token = {}'.format(input, token))
             cm_pairs.append([input, int(token)])
             print("Selesai untuk input {}".format(input))
+            has_sent_input = False
             input += 1
         elif error_message in data:
             print('Terjadi kesalahan')
@@ -50,3 +59,5 @@ while True:
     else:
         print('Selesai mengambil 10 pasangan ciphertext dan plaintext')
         break
+
+    print("Isi cm_pairs saat ini: {}".format(cm_pairs))
