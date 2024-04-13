@@ -83,4 +83,33 @@ for e in range(2**15, 2**16):
 print("Hasil perhitungan (Kemungkinan Nilai N):")
 print(gcd_options)
 
+# Ambil nilai nomor arsip admin
+nomor_admin = 0
+sk.send(b'3\n')
 
+while True:
+    data = sk.recv(1024 * 100)
+
+    if b'Nomor arsip admin:' in data:
+        nomor_admin = int(data.decode().split(': ')[1].strip())
+        break
+
+print("Nomor arsip admin: {}".format(nomor_admin))
+
+# Generate nomor token akses admin
+token_admin = pow(nomor_admin, gcd_options[0][0], gcd_options[0][1])
+
+print("Token akses admin: {}".format(token_admin))
+
+# Kirim token akses admin
+sk.send(b'2\n')
+
+while True:
+    data = sk.recv(1024 * 100)
+
+    if b'Masukkan token akses nomor arsip (dalam bentuk integer):' in data:
+        sk.send(str(token_admin).encode() + b'\n')
+        break
+
+data = sk.recv(1024 * 100)
+print(data.decode())
