@@ -30,7 +30,7 @@ while True:
     data = sk.recv(1024 * 100)
 
     # Ambil 10 pasangan ciphertext dan plaintext
-    if len(cm_pairs) < 20:
+    if len(cm_pairs) < 10:
         if b'Masukkan perintah:' in data:
             sk.send(b'1\n')
         elif b'Masukkan nomor arsip (dalam bentuk integer):' in data and not has_sent_input:
@@ -52,10 +52,12 @@ while True:
             print('Terjadi kesalahan')
             break
     else:
-        print('Selesai mengambil 20 pasangan ciphertext dan plaintext')
+        print('Selesai mengambil 10 pasangan ciphertext dan plaintext')
         break
 
+print()
 print("Isi cm_pairs saat ini: {}".format(cm_pairs))
+print()
 
 # Cari nilai e dengan cara bruteforce dari 2^15 sampai 2^16
 gcd_options = []
@@ -80,8 +82,9 @@ for e in range(2**15, 2**16):
     if gcd_val != 1:
         gcd_options.append([e, gcd_val])
 
-print("Hasil perhitungan (Kemungkinan Nilai N):")
+print("Hasil perhitungan (Kemungkinan Pasangan Nilai e dan N):")
 print(gcd_options)
+print()
 
 # Ambil nilai nomor arsip admin
 nomor_admin = 0
@@ -95,11 +98,13 @@ while True:
         break
 
 print("Nomor arsip admin: {}".format(nomor_admin))
+print()
 
 # Generate nomor token akses admin
 token_admin = pow(nomor_admin, gcd_options[0][0], gcd_options[0][1])
 
 print("Token akses admin: {}".format(token_admin))
+print()
 
 # Kirim token akses admin
 sk.send(b'2\n')
